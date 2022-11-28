@@ -44,9 +44,9 @@ def polynomial_to_roots(poly: list[complex]) -> list[complex]:
     factorization = factorize(n)
 
     # Let us call the largest prime factor p
-    p = 1
+    p = 0
     for prime_factor in factorization.keys():
-        if prime_factor > p:
+        if p is None or prime_factor > p:
             p = prime_factor
 
     # We will split the number of terms in the polynomial into n = p * q, where p is the largest prime factor
@@ -63,7 +63,7 @@ def polynomial_to_roots(poly: list[complex]) -> list[complex]:
     # unit_roots_of_prime_order = [1, z^2, z^4]
     # NOTE: z^6 = 1
 
-    split_polynomials: list[list[complex]] = [[] for _ in range(p)]
+    split_polynomials: list[list[complex]] = [list() for _ in range(p)]
     for idx, coefficient in enumerate(poly):
         split_polynomials[idx % p].append(coefficient)
     # Decomposing the polynomial:

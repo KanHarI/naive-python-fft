@@ -7,8 +7,7 @@ from naive_fft.evaluate_poly import polynomial_to_roots
 
 MIN_TOLERANCE = 1e-5
 
-LARGE_POLY_DEGREE = 1_000
-NUM_LARGE_POLY_EVALUATED = 10
+LARGE_POLY_DEGREE = 10_000
 
 
 def l2(p1: list[complex], p2: list[complex]) -> float:
@@ -34,10 +33,10 @@ def test_poly_evaluation() -> None:
 
 def test_poly_performance() -> None:
     t0 = time.time()
-    for _ in range(NUM_LARGE_POLY_EVALUATED):
-        poly: list[complex] = []
-        for _ in range(LARGE_POLY_DEGREE):
-            poly.append(random.random())
-        polynomial_to_roots(poly)
+    poly: list[complex] = []
+    for _ in range(LARGE_POLY_DEGREE):
+        poly.append(random.random())
+    polynomial_to_roots(poly)
     t1 = time.time()
-    assert t1 - t0 < 1
+    # x15 the time on my machine
+    assert t1 - t0 < 2

@@ -41,6 +41,6 @@ def test_prime_population_performance() -> None:
     t_0 = time.time()
     populate_primes_up_to(100_000)
     t_1 = time.time()
-    # Actually more than x10 faster on my machine
+    # Actually more than x15 faster on my machine
     # Python is way slower than js...
-    assert t_1 - t_0 < 10
+    assert t_1 - t_0 < 1
