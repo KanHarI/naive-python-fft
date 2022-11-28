@@ -5,16 +5,13 @@ from math import e, pi
 
 from naive_fft.ii_poly_multiplication.evaluate_poly import evaluate_poly
 from naive_fft.ii_poly_multiplication.values_to_poly import values_to_poly
+from naive_fft.utils import l2
 
 MAX_TOLERANCE = 1e-5
 
 LARGE_POLY_DEGREE = 10_000
 INVERTIBLE_POLYS_TO_TEST = 100
 INVERTIBLE_POLY_MAX_DEGREE = 100
-
-
-def l2(p1: list[complex], p2: list[complex]) -> float:
-    return math.sqrt(sum(map(lambda tpl: abs(tpl[0] - tpl[1]) ** 2, zip(p1, p2))))
 
 
 def test_poly_evaluation() -> None:
