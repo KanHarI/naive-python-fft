@@ -3,7 +3,7 @@ import random
 import time
 from math import e, pi
 
-from naive_fft.ii_poly_multiplication.evaluate_poly import polynomial_to_roots
+from naive_fft.ii_poly_multiplication.evaluate_poly import evaluate_poly
 from naive_fft.ii_poly_multiplication.values_to_poly import values_to_poly
 
 MAX_TOLERANCE = 1e-5
@@ -18,16 +18,16 @@ def l2(p1: list[complex], p2: list[complex]) -> float:
 
 
 def test_poly_evaluation() -> None:
-    assert l2(polynomial_to_roots([]), []) < MAX_TOLERANCE
-    assert l2(polynomial_to_roots([1]), [1]) < MAX_TOLERANCE
-    assert l2(polynomial_to_roots([7]), [7]) < MAX_TOLERANCE
+    assert l2(evaluate_poly([]), []) < MAX_TOLERANCE
+    assert l2(evaluate_poly([1]), [1]) < MAX_TOLERANCE
+    assert l2(evaluate_poly([7]), [7]) < MAX_TOLERANCE
     # 0x + 1
-    assert l2(polynomial_to_roots([0, 1]), [1, -1]) < MAX_TOLERANCE
+    assert l2(evaluate_poly([0, 1]), [1, -1]) < MAX_TOLERANCE
     # 0x + 1
-    assert l2(polynomial_to_roots([1, 0]), [1, 1]) < MAX_TOLERANCE
+    assert l2(evaluate_poly([1, 0]), [1, 1]) < MAX_TOLERANCE
     assert (
         l2(
-            polynomial_to_roots([0, 1, 0]),
+            evaluate_poly([0, 1, 0]),
             [e**0, e ** (2 * pi * (1j) / 3), e ** (2 * pi * (2j) / 3)],
         )
         < MAX_TOLERANCE
@@ -39,7 +39,7 @@ def test_poly_performance() -> None:
     poly: list[complex] = []
     for _ in range(LARGE_POLY_DEGREE):
         poly.append((random.random() * 2 - 1) + 1j * (random.random() * 2 - 1))
-    polynomial_to_roots(poly)
+    evaluate_poly(poly)
     t1 = time.time()
     # x15 the time on my machine
     assert t1 - t0 < 2
@@ -51,6 +51,6 @@ def test_poly_invertability() -> None:
         degree = math.ceil(random.random() * INVERTIBLE_POLY_MAX_DEGREE)
         for _ in range(degree):
             poly.append((random.random() * 2 - 1) + 1j * (random.random() * 2 - 1))
-        values = polynomial_to_roots(poly)
+        values = evaluate_poly(poly)
         reconstructed_poly = values_to_poly(values)
         assert l2(poly, reconstructed_poly) < MAX_TOLERANCE

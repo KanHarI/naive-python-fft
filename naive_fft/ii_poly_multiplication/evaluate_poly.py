@@ -14,7 +14,7 @@ VERBOSE = False
 #
 
 
-def polynomial_to_roots(poly: list[complex]) -> list[complex]:
+def evaluate_poly(poly: list[complex]) -> list[complex]:
     """Evaluate a polynomial of degree n at n roots of unity, defining it
     uniquely"""
     # This is a variation on the Cooley–Tukey FFT algorithm:
@@ -80,7 +80,7 @@ def polynomial_to_roots(poly: list[complex]) -> list[complex]:
     # NOTE: for all k, m: f_k(w^m) = f_k(w^(m+6))
 
     evaluated_split_poly: list[list[complex]] = list(
-        map(polynomial_to_roots, split_polynomials)
+        map(evaluate_poly, split_polynomials)
     )
     # evaluated_split_poly = [[f_0(t=1), f_0(t=-1)], [f_1(t=1), f_1(t=-1)], [f_2(t=1), f_2(t=-1)]] =>
     # As functions of z:

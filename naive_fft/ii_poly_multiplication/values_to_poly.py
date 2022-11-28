@@ -1,4 +1,4 @@
-from naive_fft.ii_poly_multiplication.evaluate_poly import polynomial_to_roots
+from naive_fft.ii_poly_multiplication.evaluate_poly import evaluate_poly
 
 
 def values_to_poly(values: list[complex]) -> list[complex]:
@@ -10,6 +10,6 @@ def values_to_poly(values: list[complex]) -> list[complex]:
     return list(
         map(
             lambda x: x.conjugate(),
-            polynomial_to_roots([value.conjugate() / n for value in values]),
+            evaluate_poly([value.conjugate() / n for value in values]),
         )
     )
