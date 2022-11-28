@@ -1,6 +1,6 @@
 from math import e, pi
 
-from naive_fft.number_theory import factorize
+from naive_fft.i_number_theory.number_theory import factorize
 
 VERBOSE = False
 

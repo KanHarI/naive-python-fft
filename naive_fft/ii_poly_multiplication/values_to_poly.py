@@ -1,4 +1,4 @@
-from naive_fft.evaluate_poly import polynomial_to_roots
+from naive_fft.ii_poly_multiplication.evaluate_poly import polynomial_to_roots
 
 
 def values_to_poly(values: list[complex]) -> list[complex]:

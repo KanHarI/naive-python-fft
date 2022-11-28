@@ -3,8 +3,8 @@ import random
 import time
 from math import e, pi
 
-from naive_fft.evaluate_poly import polynomial_to_roots
-from naive_fft.values_to_poly import values_to_poly
+from naive_fft.ii_poly_multiplication.evaluate_poly import polynomial_to_roots
+from naive_fft.ii_poly_multiplication.values_to_poly import values_to_poly
 
 MAX_TOLERANCE = 1e-5
 

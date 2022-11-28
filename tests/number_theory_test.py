@@ -1,6 +1,6 @@
 import time
 
-from naive_fft.number_theory import (
+from naive_fft.i_number_theory.number_theory import (
     factorize,
     is_prime,
     populate_primes_up_to,
