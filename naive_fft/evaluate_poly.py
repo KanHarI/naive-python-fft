@@ -5,6 +5,7 @@ from naive_fft.number_theory import factorize
 
 VERBOSE = False
 
+
 # This algorithm is inefficient for degrees with large prime factors
 # There are other algorithms, for numbers with large prime factors -
 # we will not discuss it today, as it requires more group theory than
@@ -12,6 +13,8 @@ VERBOSE = False
 # You can read about them in
 # https://en.wikipedia.org/wiki/Fast_Fourier_transform#Other_FFT_algorithms
 #
+
+
 def polynomial_to_roots(poly: list[complex]) -> list[complex]:
     """Evaluate a polynomial of degree n at n roots of unity, defining it
     uniquely"""
