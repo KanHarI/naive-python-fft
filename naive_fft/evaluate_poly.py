@@ -6,9 +6,18 @@ from naive_fft.number_theory import factorize
 VERBOSE = False
 
 # This algorithm is inefficient for degrees with large prime factors
+# There are other algorithms, for numbers with large prime factors -
+# we will not discuss it today, as it requires more group theory than
+# appropriate for today (or that I have experience teaching).
+# You can read about them in
+# https://en.wikipedia.org/wiki/Fast_Fourier_transform#Other_FFT_algorithms
+#
 def polynomial_to_roots(poly: list[complex]) -> list[complex]:
     """Evaluate a polynomial of degree n at n roots of unity, defining it
     uniquely"""
+    # This is a variation on the Cooley–Tukey FFT algorithm:
+    # https://en.wikipedia.org/wiki/Cooley%E2%80%93Tukey_FFT_algorithm
+    #
     # example input:
     # [f, e, d, c, b, a] =>
     # f(x) = ax^5 + bx^4 + cx^3 + dx^2 + ex + f
@@ -109,7 +118,7 @@ def polynomial_to_roots(poly: list[complex]) -> list[complex]:
     for i in range(n):
         # n * p multiplications of every level.
         # if the prime factors are bounded by p_max, and assuming the smallest prime is p_min,
-        # we get asymptotic runtime:
+        # we get asymptotic runtime - assuming n is much larger than p_max:
         #
         # O(p_max * n * log(n)/log(p_min))
         #
