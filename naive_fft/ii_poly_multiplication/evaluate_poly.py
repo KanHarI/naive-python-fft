@@ -51,6 +51,11 @@ def evaluate_poly(poly: list[complex]) -> list[complex]:
     # We will split the number of terms in the polynomial into n = p * q, where p is the largest prime factor
     q = n // p
 
+    # Actually the algorithm is a little asymptotically faster when we split with the
+    # smallest prime first, but I wanted to demonstrate splitting to 3 parts without
+    # needing 9 elements...
+    # Switching this up is easy!
+
     unit_roots_of_nth_order: list[complex] = [1]
     for i in range(n - 1):
         unit_roots_of_nth_order.append(unit_roots_of_nth_order[-1] * w)
