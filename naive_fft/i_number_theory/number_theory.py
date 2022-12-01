@@ -71,3 +71,22 @@ def factorize(n: int) -> collections.defaultdict[int, int]:
     if n > 1:
         result[n] += 1
     return result
+
+
+def sigma_0(n: int) -> int:
+    """Count number of divisors"""
+    factorization = factorize(n)
+    result = 1
+    for prime, power in factorization.items():
+        result *= power + 1
+    return result
+
+
+def sigma_1(n: int) -> int:
+    """Count sum of divisors"""
+    result = 1
+    factorization = factorize(n)
+    for prime, power in factorization.items():
+        denominator = prime - 1
+        result *= (prime ** (power + 1) - 1) // (prime - 1)
+    return result
