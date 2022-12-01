@@ -1,8 +1,7 @@
 import random
 import time
 
-import seaborn as sns
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt  # type:ignore
 
 from naive_fft.ii_poly_multiplication.evaluate_poly import evaluate_poly
 from naive_fft.ii_poly_multiplication.values_to_poly import values_to_poly
@@ -10,9 +9,9 @@ from naive_fft.ii_poly_multiplication.values_to_poly import values_to_poly
 MIN_TIME_FOR_ANALYSIS = 0.01  # 0.01 second per tested size
 
 
-sns.set_theme()
-
-def get_sample_performance(start_size: int, end_size: int, step_size: int) -> None:
+def get_sample_performance(
+    start_size: int, end_size: int, step_size: int
+) -> list[tuple[int, float]]:
     samples: list[tuple[int, float]] = []
     size = start_size
     while size < end_size:
@@ -32,8 +31,8 @@ def get_sample_performance(start_size: int, end_size: int, step_size: int) -> No
     return samples
 
 
-def plot_1_to_100():
+def plot_1_to_100() -> None:
     samples = get_sample_performance(1, 201, 1)
-    x,y = zip(*samples)
-    plt.plot(x,y)
+    x, y = zip(*samples)
+    plt.plot(x, y)
     plt.show()
