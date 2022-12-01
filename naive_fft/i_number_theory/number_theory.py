@@ -51,21 +51,23 @@ def is_prime(n: int) -> bool:
     return True
 
 
+FACTORIZATION_CACHE: dict[int, collections.defaultdict[int, int]] = {}
+
+
 def factorize(n: int) -> collections.defaultdict[int, int]:
     assert n != 0, "Cannot factorize 0"
+    if n in FACTORIZATION_CACHE:
+        return FACTORIZATION_CACHE[n]
     max_relevant = math.ceil(math.sqrt(n))
     populate_primes_up_to(max_relevant)
-    result: collections.defaultdict[int, int] = collections.defaultdict(int)
-    update_max_relevant_flag = False
     for prime in GLOBAL_PRIMES_LIST:
         if prime > max_relevant:
             break
-        while n % prime == 0:
-            n //= prime
-            update_max_relevant_flag = True
+        if n % prime == 0:
+            result = collections.defaultdict(int, factorize(n // prime))
             result[prime] += 1
-        if update_max_relevant_flag:
-            max_relevant = math.ceil(math.sqrt(n))
+            return result
+    result = collections.defaultdict(int)
     if n > 1:
         result[n] += 1
     return result
