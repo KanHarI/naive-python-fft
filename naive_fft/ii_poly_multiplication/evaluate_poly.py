@@ -5,7 +5,7 @@ from naive_fft.i_number_theory.number_theory import factorize
 VERBOSE = False
 
 
-# This algorithm is inefficient for degrees with large prime factors
+# This algorithm is inefficient for input sizes with large prime factors
 # There are other algorithms, for numbers with large prime factors -
 # we will not discuss it today, as it requires more group theory than
 # appropriate for today (or that I have experience teaching).
