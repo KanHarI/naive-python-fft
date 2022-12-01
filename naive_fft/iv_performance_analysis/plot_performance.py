@@ -30,7 +30,7 @@ def get_sample_performance(sample_sizes: Iterable[int]) -> list[tuple[int, float
     return samples
 
 
-RANGE_TO_PLOT = 200
+POINTS_TO_PLOT = 200
 # Values tuned for apple M1 Pro
 N_LOG_N_CONSTANT = 450_000
 N_SQUARED_CONSTANT = 2_900_000
@@ -79,7 +79,15 @@ def plot_for_ranges(
 
 
 def plot_1_to_200() -> None:
-    plot_for_ranges(range(1, 1 + RANGE_TO_PLOT), plot_n_log_n=True, plot_n_squared=True, plot_approximate_factor=True)
+    plot_for_ranges(range(1, 1 + POINTS_TO_PLOT), plot_n_log_n=True, plot_n_squared=True, plot_approximate_factor=True)
+
+
+def plot_random_numbers_to_10000() -> None:
+    sample_sizes = []
+    for _ in range(POINTS_TO_PLOT):
+        sample_sizes.append(math.ceil(random.random() * 10_000))
+    sample_sizes = sorted(list(set(sample_sizes)))
+    plot_for_ranges(sample_sizes, plot_approximate_factor=True, plot_n_squared=True, plot_n_log_n=True)
 
 
 plot_1_to_200()
