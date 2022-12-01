@@ -9,7 +9,7 @@ from naive_fft.i_number_theory.number_theory import factorize
 from naive_fft.ii_poly_multiplication.evaluate_poly import evaluate_poly
 from naive_fft.ii_poly_multiplication.values_to_poly import values_to_poly
 
-MIN_TIME_FOR_ANALYSIS = 0.01  # 0.02 second per tested size
+MIN_TIME_FOR_ANALYSIS = 0.02  # 0.02 second per tested size
 
 
 def get_sample_performance(sample_sizes: Iterable[int]) -> list[tuple[int, float]]:
@@ -78,8 +78,8 @@ def plot_for_ranges(
     plt.show()
 
 
-def plot_1_to_100() -> None:
-    plot_for_ranges(range(1, 1 + RANGE_TO_PLOT), plot_approximate_factor=True)
+def plot_1_to_200() -> None:
+    plot_for_ranges(range(1, 1 + RANGE_TO_PLOT), plot_n_log_n=True, plot_n_squared=True, plot_approximate_factor=True)
 
 
-plot_1_to_100()
+plot_1_to_200()
