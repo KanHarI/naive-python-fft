@@ -2,6 +2,7 @@ import math
 import random
 import time
 from math import e, pi
+from typing import List
 
 from naive_fft.ii_poly_multiplication.evaluate_poly import evaluate_poly
 from naive_fft.ii_poly_multiplication.values_to_poly import values_to_poly
@@ -33,7 +34,7 @@ def test_poly_evaluation() -> None:
 
 def test_poly_performance() -> None:
     t0 = time.time()
-    poly: list[complex] = []
+    poly: List[complex] = []
     for _ in range(LARGE_POLY_DEGREE):
         poly.append((random.random() * 2 - 1) + 1j * (random.random() * 2 - 1))
     evaluate_poly(poly)
@@ -44,7 +45,7 @@ def test_poly_performance() -> None:
 
 def test_poly_invertability() -> None:
     for _ in range(INVERTIBLE_POLYS_TO_TEST):
-        poly: list[complex] = []
+        poly: List[complex] = []
         degree = math.ceil(random.random() * INVERTIBLE_POLY_MAX_DEGREE)
         for _ in range(degree):
             poly.append((random.random() * 2 - 1) + 1j * (random.random() * 2 - 1))

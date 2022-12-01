@@ -1,4 +1,5 @@
 import random
+from typing import List
 
 from numpy.fft import fft as np_fft
 from numpy.fft import ifft as np_ifft
@@ -15,7 +16,7 @@ MAX_TOLERANCE = 1e-5
 
 def test_outs_and_numpy_fft() -> None:
     for _ in range(NUM_TESTS):
-        samples: list[complex] = []
+        samples: List[complex] = []
         for _ in range(MAX_SIZE):
             samples.append(random.random() * 2 - 1 + 1j * (random.random() * 2 - 1))
         our_samples_fft = our_fft(samples)

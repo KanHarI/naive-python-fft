@@ -1,5 +1,6 @@
 import time
 import typing
+from typing import List
 
 from naive_fft.i_number_theory.number_theory import (
     factorize,
@@ -64,7 +65,7 @@ def mersenne_exponent_to_perfect_num(mersenne_exponent: int) -> int:
     return typing.cast(int, 2 ** (mersenne_exponent - 1) * (2**mersenne_exponent - 1))
 
 
-PERFECT_NUMBERS: list[int] = list(
+PERFECT_NUMBERS: List[int] = list(
     map(mersenne_exponent_to_perfect_num, MERSENNE_EXPONENTS)
 )
 

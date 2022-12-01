@@ -1,4 +1,5 @@
 from math import e, pi
+from typing import List
 
 from naive_fft.i_number_theory.number_theory import factorize
 
@@ -14,7 +15,7 @@ VERBOSE = False
 #
 
 
-def evaluate_poly(poly: list[complex]) -> list[complex]:
+def evaluate_poly(poly: List[complex]) -> List[complex]:
     """Evaluate a polynomial of degree n at n roots of unity, defining it
     uniquely"""
     # This is a variation on the Cooley–Tukey FFT algorithm:
@@ -42,28 +43,32 @@ def evaluate_poly(poly: list[complex]) -> list[complex]:
 
     factorization = factorize(n)
 
-    # Let us call the largest prime factor p
-    p = 0
+    # Let us call the smallest prime factor p
+    p = n
     for prime_factor in factorization.keys():
-        if p is None or prime_factor > p:
+        if prime_factor < p:
             p = prime_factor
 
-    # We will split the number of terms in the polynomial into n = p * q, where p is the largest prime factor
+    # We will split the number of terms in the polynomial into n = p * q, where p is the smallest prime factor
     q = n // p
+
+    # We will continue by splitting 6 and using the prime 3
+    # I wanted an example of 3-way-split and 9 is too large to be convenient
+    # Choosing any prime basically works, choosing the smallest one leads to better performance
 
     # Actually the algorithm is a little asymptotically faster when we split with the
     # smallest prime first, but I wanted to demonstrate splitting to 3 parts without
     # needing 9 elements...
     # Switching this up is easy!
 
-    unit_roots_of_nth_order: list[complex] = [1]
+    unit_roots_of_nth_order: List[complex] = [1]
     for i in range(n - 1):
         unit_roots_of_nth_order.append(unit_roots_of_nth_order[-1] * w)
     # in our example, n = 6, and therefore z = e^(2pi*i/6),
     # unit_roots_of_nth_order = [1, w, w^2, w^3, w^4, w^5]
     # NOTE: w^6 = w^0 = 1
 
-    split_polynomials: list[list[complex]] = [list() for _ in range(p)]
+    split_polynomials: List[List[complex]] = [list() for _ in range(p)]
     for idx, coefficient in enumerate(poly):
         split_polynomials[idx % p].append(coefficient)
     # Decomposing the polynomial:
@@ -84,7 +89,7 @@ def evaluate_poly(poly: list[complex]) -> list[complex]:
     #
     # NOTE: for all k, m: f_k(w^m) = f_k(w^(m+6))
 
-    evaluated_split_poly: list[list[complex]] = list(
+    evaluated_split_poly: List[List[complex]] = list(
         map(evaluate_poly, split_polynomials)
     )
     # evaluated_split_poly = [[f_0(t=1), f_0(t=-1)], [f_1(t=1), f_1(t=-1)], [f_2(t=1), f_2(t=-1)]] =>
@@ -92,7 +97,7 @@ def evaluate_poly(poly: list[complex]) -> list[complex]:
     # [[f_0(w^0), f_0(w^3)], [f_1(w^0), f_1(w^3)], [f_2(w^0), f_2(w^3)]]
 
     # initialize zeroes for result
-    result: list[complex] = [0 for _ in range(n)]
+    result: List[complex] = [0 for _ in range(n)]
 
     if VERBOSE:
         print("unit_roots_of_nth_order", unit_roots_of_nth_order)

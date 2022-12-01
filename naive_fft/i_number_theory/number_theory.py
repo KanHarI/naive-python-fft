@@ -1,5 +1,6 @@
 import collections
 import math
+from typing import DefaultDict, Dict
 
 GLOBAL_PRIMES_SET = {2, 3}
 GLOBAL_PRIMES_LIST = [2, 3]
@@ -51,10 +52,10 @@ def is_prime(n: int) -> bool:
     return True
 
 
-FACTORIZATION_CACHE: dict[int, collections.defaultdict[int, int]] = {}
+FACTORIZATION_CACHE: Dict[int, DefaultDict[int, int]] = {}
 
 
-def factorize(n: int) -> collections.defaultdict[int, int]:
+def factorize(n: int) -> DefaultDict[int, int]:
     assert n != 0, "Cannot factorize 0"
     if n in FACTORIZATION_CACHE:
         return FACTORIZATION_CACHE[n]
@@ -87,6 +88,5 @@ def sigma_1(n: int) -> int:
     result = 1
     factorization = factorize(n)
     for prime, power in factorization.items():
-        denominator = prime - 1
         result *= (prime ** (power + 1) - 1) // (prime - 1)
     return result
