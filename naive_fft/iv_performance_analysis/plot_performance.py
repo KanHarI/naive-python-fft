@@ -37,13 +37,13 @@ def get_sample_performance(sample_sizes: Iterable[int]) -> List[Tuple[int, float
 
 
 POINTS_TO_PLOT = 200
-RANDOM_POINTS_TO_PLOT = 50
-MAX_RANDOM_SIZE = 10000
+RANDOM_POINTS_TO_PLOT = 100
+MAX_RANDOM_SIZE = 2000
 
 # Values tuned for apple M1 Pro
-N_LOG_N_CONSTANT = 2.126604786639285e-06
-N_SQUARED_CONSTANT = 2.7152057574006344e-07
-APPROXIMATE_CONSTANT = 7.81131246742718e-07
+N_LOG_N_CONSTANT = 1.8555407164497505e-06
+N_SQUARED_CONSTANT = 2.5963000877856e-07
+APPROXIMATE_CONSTANT = 4.6506903461242654e-07
 
 
 def calibrate() -> None:
@@ -101,12 +101,13 @@ def approximate_factor(n: int) -> float:
         largest_factor = factors[0]
     else:
         largest_factor = 1
-    result = largest_factor
+    # result = largest_factor - 1
     # if len(factors) == 0:
     #     return 1
     # return sorted(factors)[-1] * math.log(n)
+    result = 1
     for prime, power in factorization.items():
-        result += power
+        result += prime * power
     return result
 
 
@@ -152,9 +153,9 @@ def plot_1_to_n(n: int) -> None:
     )
 
 
-def plot_numbers_generated_by_2_3_5_7() -> None:
+def plot_numbers_generated_by_2_3_5_7_11_13() -> None:
     sample_sizes = [
-        i for i in range(1, 1000) if set(factorize(i).keys()).issubset({2, 3, 5, 7})
+        i for i in range(1, 1000) if set(factorize(i).keys()).issubset({2, 3, 5, 7, 11, 13})
     ][::-1]
     plot_for_ranges(
         sample_sizes,
@@ -176,7 +177,7 @@ def plot_random_numbers_perf() -> None:
     )
 
 
-MAX_POWER_OF_2 = 14
+MAX_POWER_OF_2 = 16
 
 
 def print_powers_of_2_times() -> None:
@@ -188,8 +189,8 @@ def print_powers_of_2_times() -> None:
 
 
 if __name__ == "__main__":
-    calibrate()
+    # calibrate()
     print_powers_of_2_times()
     # plot_1_to_n(POINTS_TO_PLOT)
-    plot_numbers_generated_by_2_3_5_7()
-    # plot_random_numbers_perf()
+    # plot_numbers_generated_by_2_3_5_7_11_13()
+    plot_random_numbers_perf()
