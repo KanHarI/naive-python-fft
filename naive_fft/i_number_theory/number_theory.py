@@ -18,6 +18,7 @@ def reset_primes() -> None:
 
 def populate_primes_up_to(n: int) -> None:
     global GLOBAL_PRIMES
+    global GLOBAL_PRIMES_LIST
     global GLOBAL_PRIMES_CHECKED_UP_TO
 
     if GLOBAL_PRIMES_CHECKED_UP_TO >= n:
@@ -34,6 +35,8 @@ def populate_primes_up_to(n: int) -> None:
                 GLOBAL_PRIMES_SET.add(candidate_prime)
                 GLOBAL_PRIMES_LIST.append(candidate_prime)
                 break
+    a = 1
+    return
 
 
 def is_prime(n: int) -> bool:
@@ -72,6 +75,14 @@ def factorize(n: int) -> DefaultDict[int, int]:
     if n > 1:
         result[n] += 1
     return result
+
+
+def first_prime_after(n: int) -> int:
+    populate_primes_up_to(n * 2)  # There must be a prime in the range (n, 2n)
+    for prime in GLOBAL_PRIMES_LIST:
+        if prime > n:
+            return prime
+    return -1
 
 
 def sigma_0(n: int) -> int:

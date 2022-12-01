@@ -43,23 +43,14 @@ def evaluate_poly(poly: List[complex]) -> List[complex]:
 
     factorization = factorize(n)
 
-    # Let us call the smallest prime factor p
-    p = n
+    # Let us call the largest prime factor p
+    p = 1
     for prime_factor in factorization.keys():
-        if prime_factor < p:
+        if prime_factor > p:
             p = prime_factor
 
-    # We will split the number of terms in the polynomial into n = p * q, where p is the smallest prime factor
+    # We will split the number of terms in the polynomial into n = p * q, where p is the largest prime factor
     q = n // p
-
-    # We will continue by splitting 6 and using the prime 3
-    # I wanted an example of 3-way-split and 9 is too large to be convenient
-    # Choosing any prime basically works, choosing the smallest one leads to better performance
-
-    # Actually the algorithm is a little asymptotically faster when we split with the
-    # smallest prime first, but I wanted to demonstrate splitting to 3 parts without
-    # needing 9 elements...
-    # Switching this up is easy!
 
     unit_roots_of_nth_order: List[complex] = [1]
     for i in range(n - 1):
