@@ -115,15 +115,10 @@ def evaluate_poly(poly: List[complex]) -> List[complex]:
     #
     # For all k in 0,1,2, f_k(w^(m*3)) is in the position [k, m % 2] in the evaluated array
     for j, single_evaluated_poly in enumerate(evaluated_split_poly):
-    # for i in range(n):
         # n * p multiplications of every level.
         #
         # if the prime factors are bounded by p_max, and assuming the smallest prime is p_min,
         # we get asymptotic runtime - assuming n is much larger than p_max:
-        #
-        # O(p_max * n * log(n)/log(p_min))
-        #
-        # for j, single_evaluated_poly in enumerate(evaluated_split_poly):
         for i in range(n):
             result[i] += (
                 unit_roots_of_nth_order[(i * j) % n] * single_evaluated_poly[i % q]

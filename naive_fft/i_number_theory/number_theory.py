@@ -101,3 +101,9 @@ def sigma_1(n: int) -> int:
     for prime, power in factorization.items():
         result *= (prime ** (power + 1) - 1) // (prime - 1)
     return result
+
+
+def factorial(n: int) -> int:
+    if n < 2:
+        return 1
+    return n * factorial(n - 1)

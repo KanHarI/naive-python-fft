@@ -8,9 +8,11 @@ import tqdm  # type: ignore
 
 from naive_fft.i_number_theory.number_theory import (
     GLOBAL_PRIMES_LIST,
+    factorial,
     factorize,
+    first_prime_after,
     populate_primes_up_to,
-    reset_primes, first_prime_after,
+    reset_primes,
 )
 from naive_fft.ii_poly_multiplication.evaluate_poly import evaluate_poly
 from naive_fft.ii_poly_multiplication.values_to_poly import values_to_poly
@@ -37,13 +39,14 @@ def get_sample_performance(sample_sizes: Iterable[int]) -> List[Tuple[int, float
 
 
 POINTS_TO_PLOT = 200
-RANDOM_POINTS_TO_PLOT = 100
-MAX_RANDOM_SIZE = 2000
+RANDOM_POINTS_TO_PLOT = 60
+MAX_RANDOM_SIZE = 3000
+MAX_NUMBER_GENERATED_BY_PRIMES = 3000
 
 # Values tuned for apple M1 Pro
-N_LOG_N_CONSTANT = 1.8555407164497505e-06
-N_SQUARED_CONSTANT = 2.5963000877856e-07
-APPROXIMATE_CONSTANT = 4.6506903461242654e-07
+N_LOG_N_CONSTANT = 1.889597219190644e-06
+N_SQUARED_CONSTANT = 2.6172736330578685e-07
+APPROXIMATE_CONSTANT = 5.032931188659143e-07
 
 
 def calibrate() -> None:
@@ -59,56 +62,68 @@ def calibrate() -> None:
     prime_performances = get_sample_performance(
         [large_prime, large_prime, large_prime, large_prime, large_prime]
     )
-    average_prime_runtime = sum(map(lambda sample: sample[1], prime_performances)) / len(
-        prime_performances
-    )
+    average_prime_runtime = sum(
+        map(lambda sample: sample[1], prime_performances)
+    ) / len(prime_performances)
     print(f"Prime runtime: {average_prime_runtime}s, prime: {large_prime}")
     old_min_time_for_analysis = MIN_TIME_FOR_ANALYSIS
     MIN_TIME_FOR_ANALYSIS = 1
     get_sample_performance([power_of_2])
-    power_of_2_performances = get_sample_performance([power_of_2, power_of_2, power_of_2, power_of_2, power_of_2])
-    average_power_of_2_runtime = sum(map(lambda sample: sample[1], power_of_2_performances)) / len(
-        power_of_2_performances
+    power_of_2_performances = get_sample_performance(
+        [power_of_2, power_of_2, power_of_2, power_of_2, power_of_2]
     )
-    print(f"Power of 2 runtime: {average_power_of_2_runtime}s, power of 2: {power_of_2}")
+    average_power_of_2_runtime = sum(
+        map(lambda sample: sample[1], power_of_2_performances)
+    ) / len(power_of_2_performances)
+    print(
+        f"Power of 2 runtime: {average_power_of_2_runtime}s, power of 2: {power_of_2}"
+    )
 
-    tested_composite = 7000
+    tested_composite = factorial(7)
     get_sample_performance([tested_composite])
-    composite_performances = get_sample_performance([tested_composite, tested_composite, tested_composite, tested_composite, tested_composite])
-    average_composite_time = sum(map(lambda sample: sample[1], composite_performances)) / len(
-        composite_performances
+    composite_performances = get_sample_performance(
+        [
+            tested_composite,
+            tested_composite,
+            tested_composite,
+            tested_composite,
+            tested_composite,
+        ]
+    )
+    average_composite_time = sum(
+        map(lambda sample: sample[1], composite_performances)
+    ) / len(composite_performances)
+    print(
+        f"Composite runtime: {average_composite_time}s, power of 2: {tested_composite}"
     )
 
-
-    N_SQUARED_CONSTANT = average_prime_runtime / large_prime ** 2
+    N_SQUARED_CONSTANT = average_prime_runtime / large_prime**2
     print("N_SQUARED_CONSTANT", N_SQUARED_CONSTANT)
     N_LOG_N_CONSTANT = average_power_of_2_runtime / (power_of_2 * math.log(power_of_2))
     print("N_LOG_N_CONSTANT", N_LOG_N_CONSTANT)
-    candidate_1_approximate = average_prime_runtime / (approximate_factor(large_prime) * large_prime)
-    candidate_2_approximate = average_power_of_2_runtime / (approximate_factor(power_of_2) * power_of_2)
-    candidate_3_approximate = average_composite_time / (approximate_factor(tested_composite) * tested_composite)
-    APPROXIMATE_CONSTANT = (candidate_1_approximate + candidate_2_approximate + candidate_3_approximate) / 3
+    candidate_1_approximate = average_prime_runtime / (
+        approximate_factor(large_prime) * large_prime
+    )
+    candidate_2_approximate = average_power_of_2_runtime / (
+        approximate_factor(power_of_2) * power_of_2
+    )
+    candidate_3_approximate = average_composite_time / (
+        approximate_factor(tested_composite) * tested_composite
+    )
+    APPROXIMATE_CONSTANT = (
+        candidate_1_approximate + candidate_2_approximate + candidate_3_approximate
+    ) / 3
     print("APPROXIMATE_CONSTANT", APPROXIMATE_CONSTANT)
     MIN_TIME_FOR_ANALYSIS = old_min_time_for_analysis
 
 
 
-
 def approximate_factor(n: int) -> float:
     factorization = factorize(n)
-    factors = list(factorization.keys())
-    if len(factors) > 0:
-        largest_factor = factors[0]
-    else:
-        largest_factor = 1
-    # result = largest_factor - 1
-    # if len(factors) == 0:
-    #     return 1
-    # return sorted(factors)[-1] * math.log(n)
-    result = 1
+    result = 0
     for prime, power in factorization.items():
         result += prime * power
-    return result
+    return max(result, 1)
 
 
 def plot_for_ranges(
@@ -153,9 +168,10 @@ def plot_1_to_n(n: int) -> None:
     )
 
 
-def plot_numbers_generated_by_2_3_5_7_11_13() -> None:
+def plot_numbers_generated_by_primes(primes_list: List[int]) -> None:
+    primes_set = set(primes_list)
     sample_sizes = [
-        i for i in range(1, 1000) if set(factorize(i).keys()).issubset({2, 3, 5, 7, 11, 13})
+        i for i in range(1, MAX_NUMBER_GENERATED_BY_PRIMES) if set(factorize(i).keys()).issubset(primes_set)
     ][::-1]
     plot_for_ranges(
         sample_sizes,
@@ -184,13 +200,13 @@ def print_powers_of_2_times() -> None:
     sizes = list(map(lambda exp: cast(int, 2**exp), range(MAX_POWER_OF_2)))[::-1]
     for size, time in get_sample_performance(sizes[::-1]):
         print(
-            f"{size}: {time}s, nlog(n) approx: {size * math.log(size) * N_LOG_N_CONSTANT}"
+            f"{size}: {time}s, n log(n) approx: {size * math.log(size) * N_LOG_N_CONSTANT}"
         )
 
 
 if __name__ == "__main__":
     # calibrate()
     print_powers_of_2_times()
-    # plot_1_to_n(POINTS_TO_PLOT)
-    # plot_numbers_generated_by_2_3_5_7_11_13()
-    plot_random_numbers_perf()
+    plot_1_to_n(POINTS_TO_PLOT)
+    # plot_numbers_generated_by_primes([3, 7, 13, 17, 23])
+    # plot_random_numbers_perf()
