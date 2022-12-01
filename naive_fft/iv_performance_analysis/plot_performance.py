@@ -3,7 +3,8 @@ import random
 import time
 from typing import Iterable
 
-import matplotlib.pyplot as plt  # type:ignore
+import matplotlib.pyplot as plt  # type: ignore
+import tqdm   # type: ignore
 
 from naive_fft.i_number_theory.number_theory import factorize
 from naive_fft.ii_poly_multiplication.evaluate_poly import evaluate_poly
@@ -14,7 +15,7 @@ MIN_TIME_FOR_ANALYSIS = 0.02  # 0.02 second per tested size
 
 def get_sample_performance(sample_sizes: Iterable[int]) -> list[tuple[int, float]]:
     samples: list[tuple[int, float]] = []
-    for size in sample_sizes:
+    for size in tqdm.tqdm(sample_sizes):
         random_poly: list[complex] = []
         for _ in range(size):
             random_poly.append(random.random() * 2 - 1 + 1j * (random.random() * 2 - 1))
@@ -31,6 +32,8 @@ def get_sample_performance(sample_sizes: Iterable[int]) -> list[tuple[int, float
 
 
 POINTS_TO_PLOT = 200
+RANDOM_POINTS_TO_PLOT = 50
+MAX_RANDOM_SIZE = 2000
 # Values tuned for apple M1 Pro
 N_LOG_N_CONSTANT = 450_000
 N_SQUARED_CONSTANT = 2_900_000
@@ -79,15 +82,25 @@ def plot_for_ranges(
 
 
 def plot_1_to_200() -> None:
-    plot_for_ranges(range(1, 1 + POINTS_TO_PLOT), plot_n_log_n=True, plot_n_squared=True, plot_approximate_factor=True)
+    plot_for_ranges(
+        range(1, 1 + POINTS_TO_PLOT),
+        plot_n_log_n=True,
+        plot_n_squared=True,
+        plot_approximate_factor=True,
+    )
 
 
 def plot_random_numbers_to_10000() -> None:
     sample_sizes = []
-    for _ in range(POINTS_TO_PLOT):
-        sample_sizes.append(math.ceil(random.random() * 10_000))
-    sample_sizes = sorted(list(set(sample_sizes)))
-    plot_for_ranges(sample_sizes, plot_approximate_factor=True, plot_n_squared=True, plot_n_log_n=True)
+    for _ in range(RANDOM_POINTS_TO_PLOT):
+        sample_sizes.append(math.ceil(random.random() * MAX_RANDOM_SIZE))
+    sample_sizes = sorted(list(set(sample_sizes)))[::-1]
+    plot_for_ranges(
+        sample_sizes,
+        plot_approximate_factor=True,
+        plot_n_squared=True,
+        plot_n_log_n=True,
+    )
 
 
-plot_1_to_200()
+plot_random_numbers_to_10000()
