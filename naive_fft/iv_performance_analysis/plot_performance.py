@@ -117,7 +117,6 @@ def calibrate() -> None:
     MIN_TIME_FOR_ANALYSIS = old_min_time_for_analysis
 
 
-
 def approximate_factor(n: int) -> float:
     factorization = factorize(n)
     result = 0
@@ -171,7 +170,9 @@ def plot_1_to_n(n: int) -> None:
 def plot_numbers_generated_by_primes(primes_list: List[int]) -> None:
     primes_set = set(primes_list)
     sample_sizes = [
-        i for i in range(1, MAX_NUMBER_GENERATED_BY_PRIMES) if set(factorize(i).keys()).issubset(primes_set)
+        i
+        for i in range(1, MAX_NUMBER_GENERATED_BY_PRIMES)
+        if set(factorize(i).keys()).issubset(primes_set)
     ][::-1]
     plot_for_ranges(
         sample_sizes,
