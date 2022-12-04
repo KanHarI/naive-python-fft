@@ -48,7 +48,9 @@ def compress_audio_file(
     right_channel_list = list(right_channel)
     left_channel_fft = fft(left_channel_list)
     right_channel_fft = fft(right_channel_list)
-    saved_percent = bandpass_filter_sample(left_channel_fft, sample_rate, min_frequency, max_frequency)
+    saved_percent = bandpass_filter_sample(
+        left_channel_fft, sample_rate, min_frequency, max_frequency
+    )
     bandpass_filter_sample(right_channel_fft, sample_rate, min_frequency, max_frequency)
     data_reconstructed = (
         (np.array([ifft(left_channel_fft), ifft(right_channel_fft)]) * SAMPLE_MAX)
@@ -61,6 +63,12 @@ def compress_audio_file(
 
 if __name__ == "__main__":
     compress_audio_file("ensoniq-source-sample.wav", "ensoniq_80_to_5k.wav", 80, 5_000)
-    compress_audio_file("ensoniq-source-sample.wav", "ensoniq_40_to_10k.wav", 40, 10_000)
-    compress_audio_file("ensoniq-source-sample.wav", "ensoniq_30_to_15k.wav", 30, 15_000)
-    compress_audio_file("ensoniq-source-sample.wav", "ensoniq_20_to_20k.wav", 20, 20_000)
+    compress_audio_file(
+        "ensoniq-source-sample.wav", "ensoniq_40_to_10k.wav", 40, 10_000
+    )
+    compress_audio_file(
+        "ensoniq-source-sample.wav", "ensoniq_30_to_15k.wav", 30, 15_000
+    )
+    compress_audio_file(
+        "ensoniq-source-sample.wav", "ensoniq_20_to_20k.wav", 20, 20_000
+    )
