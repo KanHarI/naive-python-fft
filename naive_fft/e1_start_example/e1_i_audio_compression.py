@@ -6,7 +6,8 @@ from scipy.io import wavfile  # type: ignore
 
 from naive_fft.iii_fft.fft import fft, ifft
 
-ASSETS_DIR = f"{os.getcwd()}/../assets"
+CURRENT_DIR = os.path.dirname(__file__)
+ASSETS_DIR = f"{CURRENT_DIR}/../assets"
 
 
 SAMPLE_MAX = 32768
