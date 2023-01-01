@@ -206,8 +206,8 @@ def print_powers_of_2_times() -> None:
 
 
 if __name__ == "__main__":
-    # calibrate()
+    calibrate()
     print_powers_of_2_times()
     plot_1_to_n(POINTS_TO_PLOT)
-    # plot_numbers_generated_by_primes([3, 7, 13, 17, 23])
-    # plot_random_numbers_perf()
+    plot_numbers_generated_by_primes([3, 7, 13, 17, 23])
+    plot_random_numbers_perf()
