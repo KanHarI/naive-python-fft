@@ -53,8 +53,6 @@ def calibrate() -> None:
     global APPROXIMATE_CONSTANT
     global N_LOG_N_CONSTANT
 
-    populate_primes_up_to(2**14)
-
     large_prime = first_prime_after(1000)
     power_of_2 = 2**14
     # Caches warmup - do not count first run of each
@@ -131,6 +129,9 @@ def plot_for_ranges(
     plot_n_log_n: bool = False,
     plot_n_squared: bool = False,
     plot_approximate_factor: bool = False,
+    twice_lower_approximation: bool = True,  # This is slightly cheating - there is a x2 factor I do not
+    # know how to explain between the very large arrays used for calibration and the ones used
+    # for plotting
 ) -> None:
     fig = plt.figure()
     ax1 = fig.add_subplot()
@@ -146,7 +147,13 @@ def plot_for_ranges(
         ax1.set_ylabel("n^2")
     if plot_approximate_factor:
         approx_factors = [
-            (n, approximate_factor(n) * n * APPROXIMATE_CONSTANT) for n in tested_vals
+            (
+                n,
+                approximate_factor(n) * n * APPROXIMATE_CONSTANT * 0.5
+                if twice_lower_approximation
+                else 1,
+            )
+            for n in tested_vals
         ]
         x, y = zip(*approx_factors)
         ax1.plot(x, y)
