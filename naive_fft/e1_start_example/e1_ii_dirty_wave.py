@@ -23,7 +23,7 @@ def main() -> None:
     plt.show()  # Total noise. Can not see frequency as a human
     samples_fft = fft(samples)
     plt.plot([abs(x) for x in samples_fft])
-    plt.show()
+    plt.show()  # Can see frequency very clearly. Phase is lost due to absolute value, but can be recovered
 
 
 if __name__ == "__main__":
