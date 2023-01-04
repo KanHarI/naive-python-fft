@@ -19,7 +19,6 @@ def main() -> None:
             + random.random() * NOISE_MAGNITUDE
             - NOISE_MAGNITUDE / 2
         )
-    fig = plt.figure()
     plt.plot(samples)
     plt.show()  # Total noise. Can not see frequency as a human
     samples_fft = fft(samples)
