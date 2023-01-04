@@ -7,12 +7,10 @@ import matplotlib.pyplot as plt  # type: ignore
 import tqdm
 
 from naive_fft.i_number_theory.number_theory import (
-    GLOBAL_PRIMES_LIST,
     factorial,
     factorize,
     first_prime_after,
     populate_primes_up_to,
-    reset_primes,
 )
 from naive_fft.ii_poly_multiplication.evaluate_poly import evaluate_poly
 from naive_fft.ii_poly_multiplication.values_to_poly import values_to_poly
@@ -55,9 +53,11 @@ def calibrate() -> None:
     global APPROXIMATE_CONSTANT
     global N_LOG_N_CONSTANT
 
+    populate_primes_up_to(2**14)
+
     large_prime = first_prime_after(1000)
     power_of_2 = 2**14
-    # Caches warmup - dont count first run of each
+    # Caches warmup - do not count first run of each
     get_sample_performance([large_prime])
     prime_performances = get_sample_performance(
         [large_prime, large_prime, large_prime, large_prime, large_prime]
