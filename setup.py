@@ -9,7 +9,7 @@ setup(name='NaivePythonFFT',
       author='Itay Knaan Harpaz',
       author_email='knaan.harpaz@gmail.com',
       url='https://github.com/KanHarI/naive-python-fft',
-      install_requires=['mypy', 'black', 'flake8', 'isort', 'pytest', 'ipython', 'flake8-black', 'seaborn', 'numpy', 'tqdm', 'scipy'],
+      install_requires=['mypy', 'black', 'flake8', 'isort', 'pytest', 'ipython', 'flake8-black', 'seaborn', 'numpy', 'tqdm', 'scipy', ' types-tqdm'],
       package_data=PACKAGE_DATA,
       packages=PACKAGES,
       )

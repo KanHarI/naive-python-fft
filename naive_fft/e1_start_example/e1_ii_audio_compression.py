@@ -40,15 +40,21 @@ def compress_audio_file(
     min_frequency: float,
     max_frequency: float,
 ) -> None:
+    # Read WAV file
     sample_rate, data = wavfile.read(f"{ASSETS_DIR}/{source_file_name}")
     assert data.dtype == np.int16
 
+    # Split data into left and right channels
     left_channel = data[:, 0] / SAMPLE_MAX
     right_channel = data[:, 1] / SAMPLE_MAX
     left_channel_list = list(left_channel)
     right_channel_list = list(right_channel)
+
+    # Get FFT of every channel
     left_channel_fft = fft(left_channel_list)
     right_channel_fft = fft(right_channel_list)
+
+    # Lose information about all frequencies outside of a set range
     saved_percent = bandpass_filter_sample(
         left_channel_fft, sample_rate, min_frequency, max_frequency
     )
