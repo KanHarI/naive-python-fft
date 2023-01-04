@@ -38,9 +38,9 @@ def dft_poly(array: List[complex]) -> List[complex]:
     # root_of_unity = cmath.exp((0 + 1j) * 2 * math.pi / total_length)
     for i in range(total_length):
         accumulator = 0 + 0j
-        root_of_unity_power = root_of_unity ** i
+        root_of_unity_power = root_of_unity**i
         for n in range(total_length):
-            accumulator += array[n] * root_of_unity_power ** n
+            accumulator += array[n] * root_of_unity_power**n
         result.append(accumulator)
     return result
 
