@@ -14,7 +14,11 @@ NOISE_MAGNITUDE = 10
 def main() -> None:
     samples: List[complex] = []
     for i in range(NUM_SAMPLES):
-        samples.append(math.sin(BASE_FREQUENCY * i / NUM_SAMPLES) + random.random() * NOISE_MAGNITUDE - NOISE_MAGNITUDE / 2)
+        samples.append(
+            math.sin(BASE_FREQUENCY * i / NUM_SAMPLES)
+            + random.random() * NOISE_MAGNITUDE
+            - NOISE_MAGNITUDE / 2
+        )
     fig = plt.figure()
     plt.plot(samples)
     plt.show()  # Total noise. Can not see frequency as a human
