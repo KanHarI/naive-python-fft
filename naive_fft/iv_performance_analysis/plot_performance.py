@@ -4,7 +4,7 @@ import time
 from typing import Iterable, List, Tuple, cast
 
 import matplotlib.pyplot as plt  # type: ignore
-import tqdm  # type: ignore
+import tqdm
 
 from naive_fft.i_number_theory.number_theory import (
     GLOBAL_PRIMES_LIST,

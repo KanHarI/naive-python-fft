@@ -1,6 +1,8 @@
 import random
 import time
 
+from tqdm import tqdm
+
 from naive_fft.v_three_sum.three_sum import fft_three_sum, n_squared_three_sum
 
 NUM_RUNS = 10
@@ -8,7 +10,7 @@ ARRAY_LENGTH = 40_000
 ARRAY_MAX = 80_000
 
 
-def test_three_manual():
+def test_three_manual() -> None:
     array = [17, 10, 20, 15]
     assert fft_three_sum(array, 21, 47)
     assert n_squared_three_sum(array, 21, 47)
@@ -26,10 +28,10 @@ def test_three_manual():
     assert not n_squared_three_sum(array_3, 14, 37)
 
 
-def test_three_sum_automatic_and_timing():
-    fft_time = 0
-    n_quared_time = 0
-    for i in range(NUM_RUNS):
+def test_three_sum_automatic_and_timing() -> None:
+    fft_time = 0.0
+    n_quared_time = 0.0
+    for i in tqdm(range(NUM_RUNS)):
         array = []
         for j in range(ARRAY_LENGTH):
             array.append(random.randint(0, ARRAY_MAX - 1))

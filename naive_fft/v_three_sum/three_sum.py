@@ -1,13 +1,14 @@
 from math import ceil, log2
+from typing import List, Set, cast
 
 from naive_fft.iii_fft.fft import fft, ifft
 
 
-def fft_three_sum(array: [int], upper_bound: int, target_sum: int):
+def fft_three_sum(array: List[int], upper_bound: int, target_sum: int) -> bool:
     """values in array < upper bound"""
     trice_upper_bound_rounded = 2 ** (ceil(log2(upper_bound)) + 2)
-    indices: [int] = [0] * trice_upper_bound_rounded
-    double_indices: set[int] = set()
+    indices: List[int] = [0] * trice_upper_bound_rounded
+    double_indices: Set[int] = set()
     if target_sum > 3 * (upper_bound - 1):
         raise ValueError("Target sun is too large")
     for n in array:
@@ -28,15 +29,17 @@ def fft_three_sum(array: [int], upper_bound: int, target_sum: int):
         if indices[target_index] > 0:
             # Double and single
             return True
-    indices_fft = fft(indices)
+    indices_as_complexes = cast(List[complex], indices)
+    indices_fft = fft(indices_as_complexes)
     indices_fft_cubed = [x**3 for x in indices_fft]
     indices_3_conv = ifft(indices_fft_cubed)  # indices * indices * indices
     indices_3_conv_int = [round(x.real) for x in indices_3_conv]
     if indices_3_conv_int[target_sum] >= 6:
         return True
+    return False
 
 
-def n_squared_three_sum(array: [int], upper_bound: int, target_sum: int):
+def n_squared_three_sum(array: List[int], upper_bound: int, target_sum: int) -> bool:
     sorted_array = sorted(array)
     for i, n in enumerate(sorted_array):
         remains = target_sum - n

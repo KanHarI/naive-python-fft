@@ -1,0 +1,12 @@
+black
+flake8
+flake8-black
+ipython
+isort
+pytest
+seaborn
+numpy
+mypy
+scipy
+tqdm
+types-tqdm
